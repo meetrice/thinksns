@@ -1,0 +1,79 @@
+	<div class="form2">
+		<h1>已有钩子</h1>
+		<select name="hooks[0][hook]" class="hook">
+			<volist name="hooks" id="vo">
+				<optgroup label="{$key}"></optgroup>
+				<volist name ="vo" id="hook">
+					<option value="{$hook}">{$hook}</option>
+				</volist>
+			</volist>
+		</select>
+		<h1>新增钩子</h2>
+		<form name="hooks_add" action="{:Addons::adminUrl('hooks_add')}" method="post">	
+			<table align="left">
+				<tr>
+					<th>分组</th>
+					<th>钩子名</th>
+					<th>操作</th>
+				</tr>
+				<tr>
+					<td>
+						<select>
+							<volist name ="hooks" id="vo">
+								<php> if($i ==1) $name=$key;</php>
+								<option value="{$key}">{$key}</option>
+							</volist>
+						</select>
+					</td>
+					<td>
+						<input name="[0]" type="text"/>
+					</td>
+					<td>
+						<a class="add">添加</a>
+					</td>
+				</tr>
+				<tfoot>
+					<tr align="center">
+							<td colspan="3"><input type="submit" class="btn_b" value="确定" onclick="get_name();"/></td>
+					</tr>	
+				</tfoot>
+			</table>
+		</form>
+	</div>
+	<h3 align="center">注：已存在的钩子，本插件自动过滤了不添加，若有钩子添加成功，本插件会自动清除缓存目录的。</h3>
+	<script type="text/javascript">
+		var form_hooks_count = 1;
+		add_hook('table tr td a.add');
+		//提价前获取正确的表单名
+		function get_name(){
+			$('table tr td :text').each(function(){
+				var _this = $(this);
+				if(_this.val() != ''){
+					var pre = _this.parent().prev().find('select').val();
+					_this.attr('name',pre+_this.attr('name'));
+				}
+
+			});
+			return false;
+		}
+
+		//动态添加插件方法
+		function add_hook(name){
+			$(name).click(function(){
+				var html = $(this).parent().parent();
+				var clone = html.clone();
+				//表单清空
+				clone.find('input[type="text"]').each(function(){
+					$(this).removeAttr('value');
+				});
+				clone.find('a.add').replaceWith('<a class="del">删除</>');
+				var clone_html = clone.html().replace(/\[0\]/g,'['+form_hooks_count+']');
+				clone = $('<tr class="group2">'+clone_html+'</tr>');
+				clone.find('a.del').click(function(){
+					$(this).parent().parent().detach();
+				});
+				html.after(clone);
+				form_hooks_count++;
+			});
+		}
+	</script>

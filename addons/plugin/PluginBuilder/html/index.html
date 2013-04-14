@@ -1,0 +1,53 @@
+<script type="text/javascript">
+//鼠标移动表格效果
+$(document).ready(function(){
+    $("tr[overstyle='on']").hover(
+      function () {
+        $(this).addClass("bg_hover");
+      },
+      function () {
+        $(this).removeClass("bg_hover");
+      }
+    );
+});
+</script>
+	<div class="so_main">
+	<div class="page_tit">{$value['name']}</div>
+	<div class="Toolbar_inbox">
+	</div>
+	<div class="list">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<th class="line_l">插件名称</th>
+		<th class="line_l">作者</th>    
+		<th class="line_l">版本号</th>
+		<th class="line_l">描述</th>
+		<th class="line_l">操作</th>
+	</tr>
+	
+	<php>if(empty($list)) {</php>
+		<tr>
+			<td colspan="5">暂无{$value['name']}</td>
+		</tr>
+	<php>}</php>
+	
+	<volist id="vo" name="list">
+		<tr overstyle='on' id="{$vo['name']}">
+			<td>{$vo['pluginName']}</td>
+			<td>{$vo['author']}
+				<php>if(isset($vo['site'])){</php>
+				<br /> <a href="{$vo['site']}">{$vo['site']}</a>
+				<php>}</php>
+			</td>
+			<td>{$vo['version']}</td>
+			<td>{$vo['info']}</td>
+			<td>
+				<a href="{:Addons::adminPage('create')}&name={$vo['pluginFile']}">编辑</a>&nbsp;<a href="{:Addons::adminUrl('del',array('name'=>$vo['pluginFile']))}" onclick="return confirm('你确定删除吗，有可能造成数据错误，到时候请手动修正')">删除</a>
+			</td>
+		</tr>
+	</volist>
+	</table>
+		<div class="Toolbar_inbox">
+	</div>
+	</div>
+</div>

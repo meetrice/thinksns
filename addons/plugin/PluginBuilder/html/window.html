@@ -1,0 +1,34 @@
+<link type="text/css" rel="stylesheet" href="{$url_path}css/codemirror.css">
+<link type="text/css" rel="stylesheet" href="{$url_path}css/{$theme}.css">
+<style type="text/css">
+	.btn_w{margin-right:10px;}
+	#edit_method{margin:10px 10px 5px;width:792px}
+	#btns{margin:10px 0 0 0;text-align:right;}
+</style>
+<script type="text/javascript" src="{$url_path}js/codemirror.js"></script>
+<script type="text/javascript" src="{$url_path}js/xml.js"></script>
+<script type="text/javascript" src="{$url_path}js/javascript.js"></script>
+<script type="text/javascript" src="{$url_path}js/clike.js"></script>
+<script type="text/javascript" src="{$url_path}js/php.js"></script>
+<script type="text/javascript">
+	var editor2 = CodeMirror.fromTextArea(document.getElementById("edit_method"), {
+		lineNumbers: true,
+		matchBrackets: true,
+		mode: "text/x-php",
+		indentUnit: 4,
+		indentWithTabs: true,
+		enterMode: "keep",
+		// workTime:4000, 
+		// workDelay:500,
+		tabMode: "shift",
+		theme: "{$theme}",
+	});
+	editor2.setValue(temp_textarea.val());
+</script>
+
+<textarea id="edit_method"></textarea>
+<div id="btns">
+		<input type="button" value="取消" onclick="cancel()" class="btn_w">
+		<input type="button" value="确定" onclick="save(editor2)" class="btn_b">
+		<div class="clear"></div>
+</div>
